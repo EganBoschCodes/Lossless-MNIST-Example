@@ -1,0 +1,4 @@
+github.com/EganBoschCodes/lossless v0.0.0-20230514031745-5fc63fbab79a h1:JTogc2iyLXXGCfz+TBcyADplGLDx7IS1QIZvtTJ9gmI=
+github.com/EganBoschCodes/lossless v0.0.0-20230514031745-5fc63fbab79a/go.mod h1:eZIcuD84dY1keoUpkiI0eEIRSRO+wvWczwYAqjKPqvQ=
+gonum.org/v1/gonum v0.13.0 h1:a0T3bh+7fhRyqeNbiC3qVHYmkiQgit3wnNan/2c0HMM=
+gonum.org/v1/gonum v0.13.0/go.mod h1:/WPYRckkfWrhWefxyYTfrTtQR0KH4iyHNuzxqXAKyAU=
