@@ -43,5 +43,5 @@ func main() {
 
 	network.Train(trainingData, testData, time.Second*60)
 
-	network.Save("savednetworks", "NewBest")
+	network.Save("savednetworks", "MNIST_Network")
 }
