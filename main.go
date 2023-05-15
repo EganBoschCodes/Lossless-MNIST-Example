@@ -11,21 +11,23 @@ import (
 )
 
 func prepareData() {
-	testFrame := datasets.ReadCSV("testing/mnist_test.csv", true)
+	testFrame := datasets.ReadCSV("mnist_test.csv", true)
 	testFrame.NumericallyCategorizeColumnSlice("[0]")
 	testFrame.MapFloatColumnSlice("[1:]", func(a float64) float64 { return a / 255 })
 	testFrame.PrintSummary()
 
 	testData := testFrame.ToDataset("[1:]", "[0]")
 
-	trainingFrame := datasets.ReadCSV("testing/mnist_train.csv", true)
+	trainingFrame := datasets.ReadCSV("mnist_train.csv", true)
 	trainingFrame.NumericallyCategorizeColumnSlice("[0]")
 	trainingFrame.MapFloatColumnSlice("[1:]", func(a float64) float64 { return a / 255 })
 	trainingData := trainingFrame.ToDataset("[1:]", "[0]")
 	trainingFrame.PrintSummary()
 
-	datasets.SaveDataset(testData, "testing/data", "mnist_test")
-	datasets.SaveDataset(trainingData, "testing/data", "mnist_training")
+	datasets.SaveDataset(testData, "data", "mnist_test")
+	datasets.SaveDataset(trainingData, "data", "mnist_training")
+
+	fmt.Println("\nTest and Training data saved!")
 }
 
 func train() {
@@ -57,18 +59,11 @@ func train() {
 	network.BatchSize = 32
 	network.LearningRate = 0.02
 
-	trainingData, testData := datasets.OpenDataset("testing/data", "mnist_training"), datasets.OpenDataset("testing/data", "mnist_test")
+	trainingData, testData := datasets.OpenDataset("data", "mnist_training"), datasets.OpenDataset("data", "mnist_test")
 
-	network.Train(trainingData, testData, time.Second*30)
+	network.Train(trainingData, testData, time.Second*60)
 
 	network.Save("testing/savednetworks", "MNIST_Network")
-
-	/*errors := network.GetErrors(testData)
-
-	for i := 0; i < 5; i++ {
-		PrintLetter(errors[i])
-		datasets.IsCorrect(network.Evaluate(errors[i].Input), errors[i].Output)
-	}*/
 }
 
 func main() {
@@ -76,7 +71,7 @@ func main() {
 	case 1:
 		train()
 	case 2:
-		if os.Args[1] == "-prep" {
+		if os.Args[1] == "-prep" || os.Args[1] == "-p" {
 			prepareData()
 		} else {
 			panic(os.Args[1] + " is not a valid flag (only -prep works)")
