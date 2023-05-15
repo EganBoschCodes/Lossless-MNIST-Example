@@ -1,16 +1,35 @@
 package main
 
 import (
-	"MNIST/mnist"
+	"fmt"
+	"os"
 	"time"
 
+	"github.com/EganBoschCodes/lossless/datasets"
 	"github.com/EganBoschCodes/lossless/neuralnetworks/layers"
 	"github.com/EganBoschCodes/lossless/neuralnetworks/networks"
 )
 
-func main() {
-	network := networks.Perceptron{}
+func prepareData() {
+	testFrame := datasets.ReadCSV("testing/mnist_test.csv", true)
+	testFrame.NumericallyCategorizeColumnSlice("[0]")
+	testFrame.MapFloatColumnSlice("[1:]", func(a float64) float64 { return a / 255 })
+	testFrame.PrintSummary()
 
+	testData := testFrame.ToDataset("[1:]", "[0]")
+
+	trainingFrame := datasets.ReadCSV("testing/mnist_train.csv", true)
+	trainingFrame.NumericallyCategorizeColumnSlice("[0]")
+	trainingFrame.MapFloatColumnSlice("[1:]", func(a float64) float64 { return a / 255 })
+	trainingData := trainingFrame.ToDataset("[1:]", "[0]")
+	trainingFrame.PrintSummary()
+
+	datasets.SaveDataset(testData, "testing/data", "mnist_test")
+	datasets.SaveDataset(trainingData, "testing/data", "mnist_training")
+}
+
+func train() {
+	network := networks.Perceptron{}
 	network.Initialize(784,
 		&layers.Conv2DLayer{
 			InputShape:  layers.Shape{Rows: 28, Cols: 28},
@@ -18,7 +37,7 @@ func main() {
 			NumKernels:  6,
 			FirstLayer:  true,
 		},
-		&layers.MaxPoolLayer{
+		&layers.MaxPool2DLayer{
 			PoolShape: layers.Shape{Rows: 2, Cols: 2},
 		},
 		&layers.TanhLayer{GradientScale: 2.0},
@@ -38,10 +57,52 @@ func main() {
 	network.BatchSize = 32
 	network.LearningRate = 0.02
 
-	trainingData := mnist.GetMNISTTrain()
-	testData := mnist.GetMNISTTest()
+	trainingData, testData := datasets.OpenDataset("testing/data", "mnist_training"), datasets.OpenDataset("testing/data", "mnist_test")
 
-	network.Train(trainingData, testData, time.Second*60)
+	network.Train(trainingData, testData, time.Second*30)
 
-	network.Save("savednetworks", "MNIST_Network")
+	network.Save("testing/savednetworks", "MNIST_Network")
+
+	/*errors := network.GetErrors(testData)
+
+	for i := 0; i < 5; i++ {
+		PrintLetter(errors[i])
+		datasets.IsCorrect(network.Evaluate(errors[i].Input), errors[i].Output)
+	}*/
+}
+
+func main() {
+	switch len(os.Args) {
+	case 1:
+		train()
+	case 2:
+		if os.Args[1] == "-prep" {
+			prepareData()
+		} else {
+			panic(os.Args[1] + " is not a valid flag (only -prep works)")
+		}
+	default:
+		panic("this file only takes 0 or 1 arguments!")
+	}
+}
+
+func toASCII(values []float64) string {
+	colors := []string{"  ", "░░", "▒▒", "▓▓", "██"}
+	stringVal := ""
+
+	for i, val := range values {
+		if i%28 == 0 && i != 0 {
+			stringVal = fmt.Sprint(stringVal, "\n")
+		}
+		index := int(val * 4.99)
+		stringVal = fmt.Sprint(stringVal, colors[index])
+	}
+
+	return stringVal
+}
+
+func PrintLetter(letter datasets.DataPoint) {
+	fmt.Println("Printing Digit:", datasets.FromOneHot(letter.Output))
+	fmt.Println(toASCII(letter.Input))
+	fmt.Printf("Output: %.2f\n", letter.Output)
 }
