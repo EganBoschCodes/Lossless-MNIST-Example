@@ -60,7 +60,7 @@ func train() {
 
 	network.Train(trainingData, testData, time.Second*60)
 
-	network.Save("testing/savednetworks", "MNIST_Network")
+	network.Save("savednetworks", "MNIST_Network")
 
 }
 
