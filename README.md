@@ -46,7 +46,7 @@ This will select just the first column, and then the 295th-301st columns and pri
 
 For example, let's normalize our values to be between 0 and 1, instead of 0 and 255, as you don't want inputs of too large a magnitude into your neural networks generally. This just takes one line of code:
 ```Go
-trainingFrame.MapFloatColumnSlice("[1:]", func(a float64) float64 { return a /  255 })
+trainingFrame.MapFloatColumnSlice("[1:]", func(_ int, a float64) float64 { return a /  255 })
 ```
 This will iterate over ever column from the one in the 1st index (I.E. the second column) all the way out to the end, just like with normal Go slicing syntax. Then, for ever value in every one of the selected columns, it will apply our given lambda function, which just divides all values by 255. You can check that this worked by reselecting and printing the subframe again after this line of code; you should now only see values between 0 and 1. Perfect!
 
@@ -107,7 +107,7 @@ Now this requires a little bit of an understanding of how convolutional neural n
 
 So now hopefully you are familiar with the idea of convolving a kernel across an input image, as that is exactly what we are about to do. So let's get started! First, we must create our network.
 ```Go
-network  := networks.Perceptron{}
+network  := networks.Sequential{}
 ```
 Then we must initialize it with our call to the `Initialize` method. We know that our input is a 28 by 28 image, so that means our network will take in 28 x 28 = 784 inputs in total.
 ```Go

@@ -13,12 +13,12 @@ import (
 func prepareData() {
 	testFrame := datasets.ReadCSV("mnist_test.csv", true)
 	testFrame.NumericallyCategorizeColumn("label")
-	testFrame.MapFloatColumnSlice("[1:]", func(a float64) float64 { return a / 255 })
+	testFrame.MapFloatColumnSlice("[1:]", func(_ int, a float64) float64 { return a / 255 })
 	testData := testFrame.ToDataset("[1:]", "[0]")
 
 	trainingFrame := datasets.ReadCSV("mnist_train.csv", true)
 	trainingFrame.NumericallyCategorizeColumn("label")
-	trainingFrame.MapFloatColumnSlice("[1:]", func(a float64) float64 { return a / 255 })
+	trainingFrame.MapFloatColumnSlice("[1:]", func(_ int, a float64) float64 { return a / 255 })
 	trainingData := trainingFrame.ToDataset("[1:]", "[0]")
 
 	datasets.SaveDataset(testData, "data", "mnist_test")
@@ -30,7 +30,7 @@ func prepareData() {
 func train() {
 	trainingData, testData := datasets.OpenDataset("data", "mnist_training"), datasets.OpenDataset("data", "mnist_test")
 
-	network := networks.Perceptron{}
+	network := networks.Sequential{}
 	network.Initialize(784,
 		&layers.Conv2DLayer{
 			InputShape:  layers.Shape{Rows: 28, Cols: 28},

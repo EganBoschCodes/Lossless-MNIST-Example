@@ -1,13 +1,7 @@
-github.com/EganBoschCodes/lossless v0.0.0-20230514031745-5fc63fbab79a h1:JTogc2iyLXXGCfz+TBcyADplGLDx7IS1QIZvtTJ9gmI=
-github.com/EganBoschCodes/lossless v0.0.0-20230514031745-5fc63fbab79a/go.mod h1:eZIcuD84dY1keoUpkiI0eEIRSRO+wvWczwYAqjKPqvQ=
-github.com/EganBoschCodes/lossless v1.0.0 h1:z+fzajyDS2ZKAQ2Mco/HqK4JsOSAU8/9EP6SpMCcY+I=
-github.com/EganBoschCodes/lossless v1.0.0/go.mod h1:eZIcuD84dY1keoUpkiI0eEIRSRO+wvWczwYAqjKPqvQ=
-github.com/EganBoschCodes/lossless v1.1.0 h1:sChGEUwDMWZiYC4n2DoRoZ0kkxeH0KbnM0iS189/a6I=
-github.com/EganBoschCodes/lossless v1.1.0/go.mod h1:eZIcuD84dY1keoUpkiI0eEIRSRO+wvWczwYAqjKPqvQ=
-github.com/EganBoschCodes/lossless v1.2.0 h1:l4FCF7nB4WB+KOFD++JaUc/3Gr2rdFCAh4oqNr9t5Qg=
-github.com/EganBoschCodes/lossless v1.2.0/go.mod h1:eZIcuD84dY1keoUpkiI0eEIRSRO+wvWczwYAqjKPqvQ=
 github.com/EganBoschCodes/lossless v1.2.1 h1:RdZTIfpKZL5u5RmabQ+Nn6cN4Hh2SzjXrk0TKtmqA5A=
 github.com/EganBoschCodes/lossless v1.2.1/go.mod h1:eZIcuD84dY1keoUpkiI0eEIRSRO+wvWczwYAqjKPqvQ=
+github.com/EganBoschCodes/lossless v1.4.0 h1:nziLkxLHpRcHqmff+dd8KCx3/vL8/ZpW4cihuQbpW1o=
+github.com/EganBoschCodes/lossless v1.4.0/go.mod h1:eZIcuD84dY1keoUpkiI0eEIRSRO+wvWczwYAqjKPqvQ=
 golang.org/x/exp v0.0.0-20230321023759-10a507213a29 h1:ooxPy7fPvB4kwsA2h+iBNHkAbp/4JxTSwCmvdjEYmug=
 gonum.org/v1/gonum v0.13.0 h1:a0T3bh+7fhRyqeNbiC3qVHYmkiQgit3wnNan/2c0HMM=
 gonum.org/v1/gonum v0.13.0/go.mod h1:/WPYRckkfWrhWefxyYTfrTtQR0KH4iyHNuzxqXAKyAU=
